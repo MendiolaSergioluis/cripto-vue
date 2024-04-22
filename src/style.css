@@ -16,23 +16,29 @@ body {
     min-height: 100vh;
     font-family: 'Outfit', sans-serif;
     font-size: 1.8rem;
+    margin: 0 auto;
+}
+h1 {
+    margin: 0;
 }
 
 @media (min-width: 480px) {
     body {
         font-size: 2rem;
+        margin: 0 auto;
     }
 }
 
 .contenedor {
     max-width: 80rem;
-    width: 95%;
+    width: 90%;
     margin: 0 auto;
+    padding: 2rem 1rem;
 }
 
 .titulo {
     font-size: 3rem;
-    margin-top: 5rem;
+    padding-top: 5rem;
     line-height: .8;
     color: var(--blanco);
 }
