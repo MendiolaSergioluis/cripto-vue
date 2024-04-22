@@ -1,6 +1,7 @@
 <script setup>
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 
+// Genera la variable reactiva con las monedas disponibles en la aplicación
 const monedas = ref([
   {codigo: 'USD', texto: 'Dolar de Estados Unidos'},
   {codigo: 'EUR', texto: 'Euro'},
@@ -10,6 +11,16 @@ const monedas = ref([
   {codigo: 'MXN', texto: 'Peso Mexicano'},
   {codigo: 'GBP', texto: 'Libra Esterlina'},
 ])
+
+// Genera la variable reactiva para contener las principales criptomonedas
+const criptomonedas = ref([])
+
+// Agrega los datos de la API a la aplicación cuando esta se inicia
+onMounted(async () => {
+  const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=20&tsym=USD'
+  const respuesta = await fetch(url)
+  criptomonedas.value = (await respuesta.json()).Data // Agrega las principales criptomonedas desde la API
+})
 
 </script>
 
