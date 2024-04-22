@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from 'vue'
+import {ref, reactive, onMounted} from 'vue'
 
 // Genera la variable reactiva con las monedas disponibles en la aplicación
 const monedas = ref([
@@ -14,6 +14,11 @@ const monedas = ref([
 
 // Genera la variable reactiva para contener las principales criptomonedas
 const criptomonedas = ref([])
+// Cotización recibida del formulario
+const cotizar = reactive({
+  moneda: '',
+  criptomoneda: ''
+})
 
 // Agrega los datos de la API a la aplicación cuando esta se inicia
 onMounted(async () => {
@@ -32,7 +37,10 @@ onMounted(async () => {
         <!-- Selector de Moneda -->
         <div class="campo">
           <label for="moneda">Moneda:</label>
-          <select id="moneda">
+          <select
+              id="moneda"
+              v-model="cotizar.moneda"
+          >
             <option value="">-- Selecciona --</option>
             <option
                 v-for="moneda in monedas"
@@ -45,7 +53,10 @@ onMounted(async () => {
         <!-- Selector de Criptomoneda -->
         <div class="campo">
           <label for="cripto">Criptomoneda:</label>
-          <select id="cripto">
+          <select
+              id="cripto"
+              v-model="cotizar.criptomoneda"
+          >
             <option value="">-- Selecciona --</option>
             <option
                 v-for="criptomoneda in criptomonedas"
