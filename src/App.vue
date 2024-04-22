@@ -20,7 +20,6 @@ onMounted(async () => {
   const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=20&tsym=USD'
   const respuesta = await fetch(url)
   criptomonedas.value = (await respuesta.json()).Data // Agrega las principales criptomonedas desde la API
-  console.log(criptomonedas.value)
 })
 
 </script>
