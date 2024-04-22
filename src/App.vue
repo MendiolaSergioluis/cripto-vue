@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive, onMounted} from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import AlertaError from "./components/AlertaError.vue";
 
 // Genera la variable reactiva con las monedas disponibles en la aplicación
@@ -20,6 +20,7 @@ const cotizar = reactive({
   moneda: '',
   criptomoneda: ''
 })
+const cotizacion = ref({})
 // Constante que almacena los mensajes de error
 const error = ref('')
 
@@ -39,6 +40,15 @@ const cotizarCripto = () => {
     }, 3000) // El mensaje de alerta se borra después de 3 segundos
     return null
   }
+  // Obtiene cotización
+  obtenerCotizacion()
+}
+
+const obtenerCotizacion = async () => {
+  const {moneda, criptomoneda} = cotizar
+  const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`
+  const respuesta = await fetch(url)
+  cotizacion.value = (await respuesta.json())['DISPLAY'][criptomoneda][moneda]
 }
 
 </script>
