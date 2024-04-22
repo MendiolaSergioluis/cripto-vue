@@ -3,12 +3,12 @@ import {onMounted, ref} from 'vue'
 
 // Genera la variable reactiva con las monedas disponibles en la aplicación
 const monedas = ref([
-  {codigo: 'USD', texto: 'Dolar de Estados Unidos'},
+  {codigo: 'USD', texto: 'Dolar (US)'},
   {codigo: 'EUR', texto: 'Euro'},
-  {codigo: 'CLP', texto: 'Peso Chileno'},
   {codigo: 'ARS', texto: 'Peso Argentino'},
-  {codigo: 'PEN', texto: 'Sol Peruano'},
+  {codigo: 'CLP', texto: 'Peso Chileno'},
   {codigo: 'MXN', texto: 'Peso Mexicano'},
+  {codigo: 'PEN', texto: 'Sol Peruano'},
   {codigo: 'GBP', texto: 'Libra Esterlina'},
 ])
 
@@ -29,6 +29,7 @@ onMounted(async () => {
     <h1 class="titulo">Cotizador de <span>Criptomonedas</span></h1>
     <div class="contenido">
       <form class="formulario">
+        <!-- Selector de Moneda -->
         <div class="campo">
           <label for="moneda">Moneda:</label>
           <select id="moneda">
@@ -41,6 +42,21 @@ onMounted(async () => {
             </option>
           </select>
         </div>
+        <!-- Selector de Criptomoneda -->
+        <div class="campo">
+          <label for="cripto">Criptomoneda:</label>
+          <select id="cripto">
+            <option value="">-- Selecciona --</option>
+            <option
+                v-for="criptomoneda in criptomonedas"
+                :value="criptomoneda.CoinInfo.Name"
+            >
+              {{ criptomoneda.CoinInfo.FullName }}
+            </option>
+          </select>
+        </div>
+        <!-- Botón para Cotizar -->
+        <input type="submit" value="Cotizar">
       </form>
     </div>
   </div>

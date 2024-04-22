@@ -98,6 +98,7 @@ body {
     background-color: var(--primario);
     color: var(--negro);
     border: none;
+    border-radius: 1rem;
     padding: 1rem;
     font-weight: 900;
     text-transform: uppercase;
