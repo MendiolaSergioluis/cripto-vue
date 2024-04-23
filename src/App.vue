@@ -1,35 +1,18 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue'
+import {reactive, ref} from 'vue'
 import AlertaError from "./components/AlertaError.vue";
+import Spinner from "./components/Spinner.vue";
+import Cotizacion from "./components/Cotizacion.vue";
+import useCripto from "./composables/useCripto.js";
 
-// Genera la variable reactiva con las monedas disponibles en la aplicación
-const monedas = ref([
-  {codigo: 'USD', texto: 'Dolar (US)'},
-  {codigo: 'EUR', texto: 'Euro'},
-  {codigo: 'ARS', texto: 'Peso Argentino'},
-  {codigo: 'CLP', texto: 'Peso Chileno'},
-  {codigo: 'MXN', texto: 'Peso Mexicano'},
-  {codigo: 'PEN', texto: 'Sol Peruano'},
-  {codigo: 'GBP', texto: 'Libra Esterlina'},
-])
+const {monedas, criptomonedas, cotizacion, cargando, obtenerCotizacion, mostrarResultado} = useCripto()
 
-// Genera la variable reactiva para contener las principales criptomonedas
-const criptomonedas = ref([])
-// Se genera un objeto de cotización con la información recibida del formulario
 const cotizar = reactive({
   moneda: '',
   criptomoneda: ''
 })
-const cotizacion = ref({})
-// Constante que almacena los mensajes de error
-const error = ref('')
 
-// Agrega los datos de la API a la aplicación cuando esta se inicia
-onMounted(async () => {
-  const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=20&tsym=USD'
-  const respuesta = await fetch(url)
-  criptomonedas.value = (await respuesta.json()).Data // Agrega las principales criptomonedas desde la API
-})
+const error = ref('')
 
 const cotizarCripto = () => {
   // Validar que el objeto cotizar este lleno
@@ -41,16 +24,8 @@ const cotizarCripto = () => {
     return null
   }
   // Obtiene cotización
-  obtenerCotizacion()
+  obtenerCotizacion(cotizar)
 }
-
-const obtenerCotizacion = async () => {
-  const {moneda, criptomoneda} = cotizar
-  const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`
-  const respuesta = await fetch(url)
-  cotizacion.value = (await respuesta.json())['DISPLAY'][criptomoneda][moneda]
-}
-
 </script>
 
 <template>
@@ -97,6 +72,11 @@ const obtenerCotizacion = async () => {
         <!-- Botón para Cotizar -->
         <input type="submit" value="Cotizar">
       </form>
+      <Spinner v-if="cargando"/>
+      <Cotizacion
+          v-if="mostrarResultado"
+          :cotizacion="cotizacion"
+      />
     </div>
   </div>
 </template>
